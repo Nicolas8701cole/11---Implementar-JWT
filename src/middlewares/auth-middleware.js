@@ -3,24 +3,20 @@ import { StatusCodes } from 'http-status-codes';
 
 const authMiddleware = (req, res, next) => {
     let authHeader = req.headers.authorization;
-
     if (!authHeader) {
         return res.status(StatusCodes.UNAUTHORIZED).send(`Falta el token.`);
     }
 
     let partes = authHeader.split(' ');
     if (partes.length != 2 || partes[0] != 'Bearer') {
-        return res.status(StatusCodes.UNAUTHORIZED).send(`El token esta mal formado.`);
+        return res.status(StatusCodes.UNAUTHORIZED).send(`Token incorrecto.`);
     }
 
-    let token = partes[1];
-
     try {
-        let datos = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = datos;
+        req.user = jwt.verify(partes[1], process.env.JWT_SECRET);
         next();
     } catch (error) {
-        return res.status(StatusCodes.UNAUTHORIZED).send(`Token invalido o vencido.`);
+        res.status(StatusCodes.UNAUTHORIZED).send(`Token invalido o vencido.`);
     }
 }
 

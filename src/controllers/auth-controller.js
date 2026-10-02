@@ -8,7 +8,6 @@ const currentService = new AuthService();
 router.post('/login', async (req, res) => {
     try {
         let entity = req.body;
-
         if (!entity?.email || !entity?.password) {
             return res.status(StatusCodes.BAD_REQUEST).send(`Faltan datos.`);
         }

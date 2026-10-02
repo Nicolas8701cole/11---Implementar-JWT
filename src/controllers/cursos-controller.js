@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import CursosService from './../services/cursos-service.js'
-
 import authMiddleware from './../middlewares/auth-middleware.js'
 
 const router = Router();
